@@ -15,3 +15,21 @@ class Image(models.Model):
 
     def delete_image(self):
         self.delete()
+
+class Follow(models.Model):
+    user_id = models.IntegerField()
+    following_id = models.IntegerField(default=0)
+
+class Comments(models.Model):
+    comment = models.TextField()
+    image_id = models.IntegerField(default=0)
+
+class Profile(models.Model):
+    profile_pic = models.ImageField(upload_to='profile_pictures/', default='/home/karangu/Desktop/Instagram\ clone/media', )
+    
+    user_id = models.IntegerField(default=0)
+    first_name = models.CharField(max_length=30, blank=True)
+    last_name = models.CharField(max_length=30, blank=True)
+    email = models.CharField(max_length=300, blank=True)
+    phone = models.CharField(max_length=30, blank=True)
+    bio = models.CharField(max_length=300, blank=True)
