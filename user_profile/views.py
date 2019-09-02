@@ -84,4 +84,20 @@ def edit_profile_page(request):
     
     return render(request, 'profile/edit_user_profile_page.html', {'form':form, 'user_images':user_images, 'following':following.count(), 'user_name':user_name})
 
+def new_image(request):
+    if request.method == 'POST':
+        form = NewImageForm(request.POST, request.FILES)
+        current_user = request.user
+        image = form.save(commit=False)
+        image.uploaded_by = current_user
+        image.save()
+        if form.is_valid():
+            image = form.save(commit=False)
+            image.uploaded_by = current_user
+            image.save()
+            image.save_image()
+    
+    return redirect(edit_profile_page)
+
+
         
