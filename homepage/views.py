@@ -1,6 +1,9 @@
-from django.shortcuts import render,redirect
 from .models import Image, Follow
+from django.shortcuts import render, redirect
+from .forms import NewImageForm, SignupForm
+from django.http import HttpResponse
 from django.contrib.auth.models import User
+from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
