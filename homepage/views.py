@@ -32,3 +32,19 @@ def signup(request):
     else:
         form = SignupForm()
     return render(request, 'signup.html', {'form': form})
+
+def new_image(request):
+    if request.method == 'POST':
+        form = NewImageForm(request.POST, request.FILES)
+        current_user = request.user
+        if form.is_valid():
+            image = form.save(commit=False)
+            image.uploaded_by = current_user
+            image.save()
+            print('-' * 30)
+            print(image.uploaded_by)
+            image.save_image()
+            return redirect(index)
+    else:
+        form = NewImageForm()
+    return render(request, 'image/new_image.html', {'form':form})
