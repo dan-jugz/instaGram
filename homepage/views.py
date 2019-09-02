@@ -48,3 +48,26 @@ def new_image(request):
     else:
         form = NewImageForm()
     return render(request, 'image/new_image.html', {'form':form})
+
+# @ensure_csrf_cookie
+def follow(request, following_id):
+    current_user = request.user
+    trial = User.objects.get(username=current_user).pk
+    if request.method == 'POST':
+        trial_id = current_user.id
+        new_follower = Follow.objects.create(user_id=trial, following_id=following_id)
+    return redirect(index)
+
+
+def search_results(request):
+    if 'search' in request.GET and request.GET['search']:
+        search_term_original = request.GET.get('search')
+        search_term = search_term_original.lower()
+        all_users = User.objects.all()
+        users_final = []
+
+        for i in all_users:
+            if search_term == i.username.lower():
+                print('-'* 20)
+                print("hello")
+        return redirect(index)
