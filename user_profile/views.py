@@ -51,4 +51,37 @@ def new_profile(request):
         else: 
             new_profile = Profile.objects.create(user_id=current_user.id, first_name=first_name, last_name=last_name,email=email,phone=phone, bio=bio)
     return redirect(edit_profile_page)
+
+
+@login_required(login_url='/accounts/login')
+def edit_profile_page(request):
+    current_user = request.user
+    print('-'* 40)
+    print(current_user.id)
+    all_images = Image.objects.all()
+    all_instagram_followers = Follow.objects.all()
+    following = Follow.objects.filter(user_id=current_user.id)
+    print('=>'*10, following.count())
+    user_images = []
+    for j in all_images:
+        if j.uploaded_by==current_user:
+            print(j.uploaded_by)
+            user_images.append(j.image)
+    print('+' * 30)
+    print(user_images)
+    form = NewProfileForm(request.POST, request.FILES)
+    all_profile = Profile.objects.filter(user_id=current_user.id)
+    print('--->' * 30)
+    print(all_profile)
+    user_name = current_user
+
+    if Profile.objects.filter(user_id=current_user.id):
+        profile_personal = Profile.objects.filter(user_id=current_user.id)
+        print('--->' * 30)
+        return render(request, 'profile/edit_user_profile_page.html', {'form':form, 'user_images':user_images, 'following':following.count(), 'user_name':user_name, 'profile_personal':profile_personal})
+
+
+    
+    return render(request, 'profile/edit_user_profile_page.html', {'form':form, 'user_images':user_images, 'following':following.count(), 'user_name':user_name})
+
         
