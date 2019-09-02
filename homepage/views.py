@@ -20,3 +20,15 @@ def index(request):
     all_users = User.objects.all()
     
     return render(request, 'suggestions/suggestions.html', {'title':title, 'images':images, 'all_users':all_users, 'current_user_id':request.user.id})
+
+def signup(request):
+    if request.method == 'POST':
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.is_active = True
+            user.save()
+            return HttpResponse('<body style="background: #e2e2e2;">Now you can <a href="/accounts/login/">login</a> your account.</body>')
+    else:
+        form = SignupForm()
+    return render(request, 'signup.html', {'form': form})
