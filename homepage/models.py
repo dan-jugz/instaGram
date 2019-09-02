@@ -25,7 +25,7 @@ class Comments(models.Model):
     image_id = models.IntegerField(default=0)
 
 class Profile(models.Model):
-    profile_pic = models.ImageField(upload_to='profile_pictures/', default='/home/karangu/Desktop/Instagram\ clone/media', )
+    profile_pic = models.ImageField(upload_to='profile_pictures/', default='', )
     
     user_id = models.IntegerField(default=0)
     first_name = models.CharField(max_length=30, blank=True)
